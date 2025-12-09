@@ -58,17 +58,32 @@ class _TrainingStageScreenState extends State<TrainingStageScreen> {
 
   Future<void> _saveTrainingStage() async {
     final exerciseWeights = <String, Map<int, double>>{};
+    bool hasInvalidWeight = false;
     
     for (var entry in _weightControllers.entries) {
       final exerciseId = entry.key;
       final setWeights = <int, double>{};
       
       for (var setEntry in entry.value.entries) {
-        final weight = double.tryParse(setEntry.value.text) ?? 0;
+        final weight = double.tryParse(setEntry.value.text);
+        if (weight == null) {
+          hasInvalidWeight = true;
+          break;
+        }
         setWeights[setEntry.key] = weight;
       }
       
+      if (hasInvalidWeight) break;
       exerciseWeights[exerciseId] = setWeights;
+    }
+    
+    if (hasInvalidWeight) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please enter valid weights for all sets')),
+        );
+      }
+      return;
     }
 
     final stage = TrainingStage(

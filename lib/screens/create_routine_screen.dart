@@ -194,6 +194,8 @@ class SetBuilder {
         repsController = TextEditingController(text: set.repetitions.toString());
 
   ExerciseSet toSet() {
+    // Validation is handled by TextFormField validators before this is called
+    // Fallback to 0 should never happen in normal usage
     return ExerciseSet(
       weight: double.tryParse(weightController.text) ?? 0,
       repetitions: int.tryParse(repsController.text) ?? 0,

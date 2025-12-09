@@ -94,6 +94,8 @@ The app uses `shared_preferences` to store data locally on the device. Data incl
 - Exercise definitions
 - Training stages and progress history
 
+**Note**: SharedPreferences is suitable for the current use case (personal use with moderate data). For apps with larger datasets or complex queries, consider migrating to `sqflite` or `hive` in future versions.
+
 ## Development
 
 ### Running Tests
